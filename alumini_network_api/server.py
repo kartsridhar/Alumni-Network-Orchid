@@ -14,7 +14,7 @@ from getuser import get_user_route
 from discover import get_category_route
 
 app = Flask(__name__)
-CORS(app, resources={r'/*': {'origins': '*'}} , support_credentials=True)
+CORS(app)
 jwt = JWTManager(app)
 
 app.register_blueprint(login_route)

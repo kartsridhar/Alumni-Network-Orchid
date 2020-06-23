@@ -72,6 +72,7 @@ body{
     border-top:1px solid #d5d5d5;
     font-size: medium;
     padding: 10px;
+    display:none;
 }
 .aluma-card-img
 {
@@ -97,7 +98,12 @@ body.offcanvas-active{
     float: right;
 }
 .offcanvas-header{ display:none; }
-
+.custom-nav{
+    background-color:transparent !important; border-bottom: 1px solid #d5d5d5
+}
+.mobile-nav{
+    display: none;
+}
 @media (max-width: 992px) {
     .flr
     {
@@ -116,22 +122,15 @@ body.offcanvas-active{
         border: none;
         font-size:30px;
     }
-  .offcanvas-header{ display:block; }
-  .navbar-collapse {
-    position: fixed;
-    top:0; 
-    bottom: 0;
-    left: 100%;
-    width: 100%;
-    padding: 25px;
-    overflow-y: auto;
-    visibility: hidden;
-    background-color: white;
-    color: black;
-    transition: visibility .2s ease-in-out, transform .2s ease-in-out;
+    .custom-nav{
+        background-color:white !important; border-top: 1px solid #d5d5d5;
+        font-size: small !important;
+    }
+
+    #content{
+        margin-bottom: 100px;
+    }
+    .mobile-nav{
+        background-color:transparent !important; border-bottom: 1px solid #d5d5d5; display: block;
+    }
   }
-  .navbar-collapse.show {
-    visibility: visible;
-    transform: translateX(-100%);
-  }
-}

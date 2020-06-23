@@ -1,11 +1,8 @@
 <template>
-    <nav class="navbar navbar-light bg-light navbar-expand-lg" style="background-color:transparent !important; border-bottom: 1px solid #d5d5d5">
-        <a class="navbar-brand" href="#">Aluma<b>Meet</b></a>
-        <button class="navbar-toggler btn btn-outline-dark" type="button" data-trigger="#main_nav">
-           <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-         </button>
-        <div class="navbar-collapse" id="main_nav" align="center">
-            <ul class="navbar-nav ml-auto">
+    <nav class="navbar navbar-light bg-light navbar-expand-lg custom-nav" id="navbar">
+        <a class="navbar-brand" id="nbrand" href="#">Aluma<b>Meet</b></a>
+            <div class="navbar-collapse">
+            <ul class="navbar-nav flex-row ml-auto justify-content-between" id="list">
                 <li class="nav-item">
                     <a class="nav-link" href="/feed"><button class="navbutton active"><i class="fa fa-home"></i></button></a>
                 </li>
@@ -22,10 +19,7 @@
                     <a class="nav-link"><button class="navbutton" @click="logout"><i class="fa fa-power-off"></i></button></a>
                 </li>            
             </ul>
-            <div class="offcanvas-header mt-3">
-                    <button class="close-btn"><i class="fa fa-times-circle-o"></i></button><br>
-                </div>
-        </div>
+            </div>
     </nav>
 </template>
 <script>
@@ -40,31 +34,34 @@ export default {
     },
   },
   mounted() {
-      $(function () {
-    'use strict'
-	$("[data-trigger]").on("click", function(){
-        var trigger_id =  $(this).attr('data-trigger');
-        $(trigger_id).toggleClass("show");
-        $('body').toggleClass("offcanvas-active");
-        $('#content').hide();
-    });
-
-    // close if press ESC button 
-    $(document).on('keydown', function(event) {
-        if(event.keyCode === 27) {
-           $(".navbar-collapse").removeClass("show");
-           $("body").removeClass("overlay-active");
-           $('#content').show();
-        }
-    });
-
-    // close button 
-    $(".close-btn").click(function(){
-        $(".navbar-collapse").removeClass("show");
-        $("body").removeClass("offcanvas-active");
-        $('#content').show();
-    }); 
-})
+      $(window).resize(function () {
+          if($(window).width()<992){
+              $("#navbar").addClass('fixed-bottom');
+              $("#list").removeClass('ml-auto');
+              $("#list").addClass('mx-auto');
+              $("#nbrand").hide();
+          }
+          else{
+              $("#navbar").removeClass('fixed-bottom');
+              $("#list").removeClass('mx-auto');
+              $("#list").addClass('ml-auto');
+              $("#nbrand").show();
+          }
+      });
+      $(document).ready(function () {
+          if($(window).width()<992){
+              $("#navbar").addClass('fixed-bottom');
+              $("#list").removeClass('ml-auto');
+              $("#list").addClass('mx-auto');
+              $("#nbrand").hide();
+          }
+          else{
+              $("#navbar").removeClass('fixed-bottom');
+              $("#list").removeClass('mx-auto');
+              $("#list").addClass('ml-auto');              
+              $("#nbrand").show();
+          }
+      })
   }
 };
 </script>

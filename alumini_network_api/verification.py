@@ -22,5 +22,5 @@ def verify():
         verification_route_cursor.close()
         db.close()
     else:
-        result=jsonify({"error":"Couldn't Verify"})
+        result="1"
     return result

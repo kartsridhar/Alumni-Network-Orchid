@@ -1,6 +1,7 @@
 <template>
     <div>
         <navbar/>
+        <mbnav/>
             <div class="container-fluid">
                 <div class="row" id="content">
                     <div class="col-lg-6 sm-auto md-auto offset-lg-3">
@@ -49,10 +50,13 @@
 </template>
 <script>
 import Navbar from './Navbar.vue'
+import MobileNavbar from './MobileNavbar.vue'
 import $ from 'jquery'
 export default {
     components: {
         'navbar': Navbar,
+        'mbnav': MobileNavbar,
+
     },
     name: 'Profile',
     methods:{

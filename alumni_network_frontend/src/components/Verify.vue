@@ -1,21 +1,17 @@
 <template>
     <div>
-        <nav class="navbar navbar-light bg-light navbar-expand-lg" style="background-color:transparent !important; border-bottom: 1px solid #d5d5d5">
-            <a class="navbar-brand" href="#">Aluma<b>Meet</b></a>
-            <button class="navbar-toggler btn btn-outline-dark" type="button" data-trigger="#main_nav">
-                <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
-            </button>
-            <div class="navbar-collapse" id="main_nav" align="center">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"><button class="navbutton" @click="logout"><i class="fa fa-power-off"></i></button></a>
-                    </li>            
-                </ul>
-                <div class="offcanvas-header mt-3">
-                    <button class="close-btn"><i class="fa fa-times-circle-o"></i></button><br>
-                </div>
-             </div>
-        </nav>
+        <nav class="navbar navbar-light bg-light navbar-expand-lg custom-nav" id="navbar">
+        <a class="navbar-brand" id="nbrand" href="#">Aluma<b>Meet</b></a>
+            <div class="navbar-collapse">
+            <ul class="navbar-nav ml-auto" id="list">
+                <li class="nav-item">
+                    <a class="nav-link"><button class="navbutton" @click="logout"><i class="fa fa-power-off"></i></button></a>
+                </li>            
+            </ul>
+            </div>
+    </nav>
+       <mbnav/>
+ 
         <div class="container-fluid">
             <div class="row" id="content">
                 <div class="col-lg-6 sm-auto md-auto offset-lg-3">
@@ -39,13 +35,16 @@
 import $ from 'jquery';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios';
-
+import MobileNavbar from './MobileNavbar.vue'
 export default {
     name: 'Verify',
     data(){
         return {
             code: '',
         }
+    },
+    components: {
+        'mbnav': MobileNavbar,
     },
     methods: {
         logout() {
@@ -61,8 +60,12 @@ export default {
             };
             const path= 'http://localhost:5000/verify';
             axios.post(path,payload).then((res) => {
-                alert(res);
-                this.$router.push({ name: 'Feed' });
+                if(res.data!="1"){
+                    this.$router.push({ name: 'Feed' });
+                    }
+                else{
+                    $("#errmsg").html("Please Check the code and try again!!").fadeIn("slow");
+                }
                 })
             .catch((err) => {
                 alert(err);
@@ -83,6 +86,34 @@ export default {
                 return false;
             }
         });
-    },
+      $(window).resize(function () {
+          if($(window).width()<992){
+              $("#navbar").addClass('fixed-bottom');
+              $("#list").removeClass('ml-auto');
+              $("#list").addClass('mx-auto');
+              $("#nbrand").hide();
+          }
+          else{
+              $("#navbar").removeClass('fixed-bottom');
+              $("#list").removeClass('mx-auto');
+              $("#list").addClass('ml-auto');
+              $("#nbrand").show();
+          }
+      });
+      $(document).ready(function () {
+          if($(window).width()<992){
+              $("#navbar").addClass('fixed-bottom');
+              $("#list").removeClass('ml-auto');
+              $("#list").addClass('mx-auto');
+              $("#nbrand").hide();
+          }
+          else{
+              $("#navbar").removeClass('fixed-bottom');
+              $("#list").removeClass('mx-auto');
+              $("#list").addClass('ml-auto');              
+              $("#nbrand").show();
+          }
+      })
+  }
 }
 </script>

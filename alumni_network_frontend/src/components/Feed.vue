@@ -1,6 +1,7 @@
 <template>
     <div>
         <navbar/>
+        <mbnav/>
         <div class="container-fluid">
             <div class="row" id="content">
                 <div class="col-lg-6 sm-auto md-auto offset-lg-3">
@@ -22,13 +23,16 @@
                             <div class="aluma-card-post-content">
                              Posts accn to category here
                             </div>
+                            <div id="cmnt"  class="aluma-card-post-comment">
+                                <button type="button" class="float-right close" aria-label="Close" @click="toggleComment('#cmnt','#postFooter')">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                    Comments Here
+                             </div>
                              <div class="aluma-card-post-footer" align="left" id="postFooter">
                                 <button @click="changeClass('#lk')"><i id="lk" class="fa fa-thumbs-o-up"></i></button>
                                 <button @click="changeClass('#bk')"><i id="bk" class="fa fa-bookmark-o"></i></button>
-                                <button @click="toggleComment('#cmnt')"><i class="fa fa-comment-o"></i></button>
-                             </div>
-                             <div id="cmnt" style="display:none;" class="aluma-card-post-comment">
-                                    Comments Here
+                                <button @click="toggleComment('#cmnt','#postFooter')"><i class="fa fa-comment-o"></i></button>
                              </div>
                         </div>
                     </div>
@@ -39,10 +43,12 @@
 </template>
 <script>
 import Navbar from './Navbar.vue'
+import MobileNavbar from './MobileNavbar.vue'
 import $ from 'jquery'
 export default {
     components: {
         'navbar': Navbar,
+        'mbnav': MobileNavbar,
     },
     name: 'Feed',
     methods: {
@@ -69,28 +75,32 @@ export default {
                 $(id).addClass("fa-bookmark-o",{duration:500});
             }
         },
-        toggleComment:function toggleComment(id)
+        toggleComment:function toggleComment(id,id1)
         {
             if($(id).css('display')=='none')
             {
                 $(id).slideDown('slow');
+                $(id1).slideUp('slow');
             }
             else
             {
                 $(id).slideUp('slow');
+                $(id1).slideDown('slow');
             }
         },
     },
+    mounted() {
+        $(function () {
+            $("#initPost").on("click",function(){
+                $("#writePost").slideDown('slow');
+                $("#initPost").fadeOut('slow');
+                $("postHead").fadeIn('slow');
+            })
+            $("#closePost").on("click",function(){
+                $("#writePost").slideUp('slow');
+                $("#initPost").fadeIn('slow');
+            })
+        })
+    },
 }
-$(function () {
-    $("#initPost").on("click",function(){
-        $("#writePost").slideDown('slow');
-        $("#initPost").fadeOut('slow');
-        $("postHead").fadeIn('slow');
-    })
-    $("#closePost").on("click",function(){
-        $("#writePost").slideUp('slow');
-        $("#initPost").fadeIn('slow');
-    })
-})
 </script>
