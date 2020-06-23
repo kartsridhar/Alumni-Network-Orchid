@@ -22,7 +22,7 @@ def signup():
     try:
         db=createConnection()
         signup_cursor=db.cursor(dictionary=True)
-        crt="INSERT INTO users VALUES ('{}','{}','{}','{}','{}','{}')".format(ue,up,fn,un,uc,ucon)
+        crt="INSERT INTO users VALUES ('{}','{}','{}','{}','{}','{}')".format(ue,fn,un,up,uc,ucon)
         signup_cursor.execute(crt)
         db.commit()
         signup_cursor.close()
