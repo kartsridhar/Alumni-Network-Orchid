@@ -24,7 +24,7 @@
                                     <div class="contaainer-fluid"><img src="../assets/login.jpg" class="img-fluid rounded"></div>
                                     </div>
                                     <div class="col-lg-6 sm-auto md-auto">
-                                        <form class="p-3" style="margin-top:40px">
+                                        <form class="p-3" style="margin-top:40px" v-on:submit.prevent="signIn">
                                             <input type="email" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail">
                                             <input type="password" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password">
                                             <button class="btn btn-dark btn-block my-4" type="Login">Sign in</button>
@@ -38,12 +38,12 @@
                                             <div class="contaainer-fluid"><img src="../assets/signup.png" class="img-fluid rounded"></div>
                                         </div>
                                         <div class="col-lg-6 sm-auto md-auto">
-                                            <form class="p-2">
-                                                <input class="form-control mb-5" id="name" type="text" placeholder="Name">
-                                                <input class="form-control mb-5" id="username" type="text" placeholder="Username">
-                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail">
-                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password">
-                                                <button class="btn btn-dark btn-block my-4" type="submit">Sign in</button>
+                                            <form class="p-2" v-on:submit.prevent="signUp">
+                                                <input class="form-control mb-5" v-model="signUpName" id="name" type="text" placeholder="Name" required>
+                                                <input class="form-control mb-5" v-model="signUpUsername" id="username" type="text" placeholder="Username" required>
+                                                <input type="email" v-model="signUpEmail" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" required>
+                                                <input type="password" v-model="signUpPass" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" required>
+                                                <button class="btn btn-dark btn-block my-4" type="submit">SIGN UP</button>
                                             </form>
                                         </div>
                                     </div>    
@@ -57,7 +57,38 @@
 </div>
 </template>
 <script>
+const axios = require('axios')
+
 export default {
-    name : 'Home'
+    name : 'Home',
+    data () {
+        return {
+            // SIGN UP FORM MODELS
+            signUpName: '',
+            signUpUsername: '',
+            signUpEmail: '',
+            signUpPass: '',
+        }
+    },
+    methods: {
+        signUp () {
+            axios.post('http://localhost:5000/signup',
+                { email : this.signUpEmail,
+            full_name : this.signUpName, 
+            user_name : this.signUpUsername, 
+            password : this.signUpPass, 
+            }).then(res => {
+                // Clearing the fields
+                this.signUpName = ''
+                this.signUpUsername = ''
+                this.signUpEmail = ''
+                this.signUpPass = ''
+                console.log(res)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
+    }
 }
 </script>
