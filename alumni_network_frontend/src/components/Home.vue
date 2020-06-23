@@ -12,8 +12,8 @@
                 <div class="card border-dark text-center">
                     <div class="card-header bg-transparent">
                         <div class="nav nav-tabs nav-justified card-header-tabs">
-                            <span class="nav-item nav-link active" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab" aria-controls="nav-signup" aria-selected="false">Signup</span>
-                            <span class="nav-item nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-selected="true">Login</span>
+                            <span class="nav-item nav-link active" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab" aria-controls="nav-signup" aria-selected="false" style="cursor: pointer;"><strong>Sign Up</strong></span>
+                            <span class="nav-item nav-link" id="nav-login-tab" data-toggle="tab" href="#nav-login" role="tab" aria-controls="nav-login" aria-selected="true" style="cursor: pointer;"><strong>Login</strong></span>
                         </div>
                     </div>
                     <div class="card-body">
@@ -21,13 +21,13 @@
                             <div class="tab-pane fade" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
                                 <div class="row">
                                     <div class="col-lg-6  sm-auto md-auto">
-                                    <div class="contaainer-fluid"><img src="../assets/login.jpg" class="img-fluid rounded"></div>
+                                    <div class="container-fluid"><img src="../assets/login.jpg" class="img-fluid rounded"></div>
                                     </div>
                                     <div class="col-lg-6 sm-auto md-auto">
                                         <form class="p-3" style="margin-top:40px" @submit.prevent="login">
-                                            <input type="email"  class="form-control mb-4" placeholder="E-mail" v-model="lEmail">
-                                            <input type="password" class="form-control mb-4" placeholder="Password" v-model="lPass">
-                                            <button class="btn btn-dark btn-block my-4" type="submit">Sign in</button>
+                                            <input type="email"  class="form-control mb-4" placeholder="E-mail" v-model="lEmail" required>
+                                            <input type="password" class="form-control mb-4" placeholder="Password" v-model="lPass" required>
+                                            <button class="btn btn-dark btn-block my-4" type="submit">Login</button>
                                         </form>
                                     </div>
                                 </div>
@@ -35,15 +35,15 @@
                             <div class="tab-pane fade show active" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
                                     <div class="row">
                                         <div class="col-lg-6  sm-auto md-auto">
-                                            <div class="contaainer-fluid"><img src="../assets/signup.png" class="img-fluid rounded"></div>
+                                            <div class="container-fluid"><img src="../assets/signup.png" class="img-fluid rounded"></div>
                                         </div>
                                         <div class="col-lg-6 sm-auto md-auto">
                                             <form class="p-2" @submit.prevent="signup">
-                                                <input class="form-control mb-5" type="text" placeholder="Name" v-model="sName">
-                                                <input class="form-control mb-5" id="username" type="text" placeholder="Username" v-model="sUsername">
-                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" v-model="sEmail">
-                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" v-model="sPass">
-                                                <button class="btn btn-dark btn-block my-4" type="submit">Sign in</button>
+                                                <input class="form-control mb-5" type="text" placeholder="Name" v-model="sName" required>
+                                                <input class="form-control mb-5" id="username" type="text" placeholder="Username" v-model="sUsername" required>
+                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" v-model="sEmail" required>
+                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" v-model="sPass" required>
+                                                <button class="btn btn-dark btn-block my-4" type="submit">Sign Up</button>
                                             </form>
                                         </div>
                                     </div>    

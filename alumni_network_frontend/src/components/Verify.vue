@@ -64,7 +64,7 @@ export default {
                     this.$router.push({ name: 'Feed' });
                     }
                 else{
-                    $("#errmsg").html("Please Check the code and try again!!").fadeIn("slow");
+                    $("#errmsg").html("Please Check the code and try again!!").fadeIn("slow").delay(3000).fadeOut("slow");
                 }
                 })
             .catch((err) => {
@@ -75,17 +75,16 @@ export default {
     mounted() {
         $("#otp").keypress(function (e) {
             if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-                $("#errmsg").html("Numeric Values only Allowed").fadeIn("slow").fadeOut("slow");
+                $("#errmsg").html("Numeric Values only Allowed").fadeIn("slow").delay(3000).fadeOut("slow");
                 return false;
             }
-        });
-        $("#otp").keypress(function () {
             var len=$(this).val().length;
             if(len>3){
-                $("#errmsg1").html("Please Enter a 4 digit number").fadeIn("slow").fadeOut("slow");
+                $("#errmsg1").html("Please Enter a 4 digit number").fadeIn("slow").delay(3000).fadeOut("slow");
                 return false;
             }
         });
+
       $(window).resize(function () {
           if($(window).width()<992){
               $("#navbar").addClass('fixed-bottom');
