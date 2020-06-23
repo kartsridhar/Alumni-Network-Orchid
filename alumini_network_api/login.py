@@ -16,7 +16,7 @@ def login():
         ftc="SELECT * FROM users WHERE email='{}' AND password='{}'".format(ue,up)
         login_cursor.execute(ftc)
         rows=login_cursor.fetchone()
-        result= create_access_token( identity={'full_name': rows['full_name'],'email': rows['email'],'user_name': rows['user_name']})
+        result= create_access_token( identity={'full_name': rows['full_name'],'email': rows['email'],'user_name': rows['user_name'],'confirmation_status':rows['confirmation_status']})
         login_cursor.close()
         db.close()	
     except:

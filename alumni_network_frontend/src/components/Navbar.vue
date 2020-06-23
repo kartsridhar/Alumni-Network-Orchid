@@ -39,8 +39,8 @@ export default {
       this.$router.push({ name: 'Home' });
     },
   },
-};
-$(function () {
+  mounted() {
+      $(function () {
     'use strict'
 	$("[data-trigger]").on("click", function(){
         var trigger_id =  $(this).attr('data-trigger');
@@ -65,4 +65,6 @@ $(function () {
         $('#content').show();
     }); 
 })
+  }
+};
 </script>

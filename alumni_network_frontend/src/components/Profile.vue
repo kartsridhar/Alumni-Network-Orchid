@@ -17,13 +17,16 @@
                         <div class="aluma-card" style="margin-top:20px;">
                             <span class="aluma-card-profile-name">Bio<button @click="editBio" id="editBioButton" class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
                             <div id="orignalBio">Bio here</div>
-                            <div id="bioForm" style="display:none;">
-                                <form class="p-2">
-                                    <textarea class="form-control mb-3" id="newBio"></textarea>
-                                    <button class="btn btn-dark" type="submit">Save</button>&emsp;&emsp;
-                                    <span class="btn btn-outline-dark" @click="cancel('#bioForm','#editBioButton','#orginalBio')">Cancel</span>
-                                </form>
-                            </div>
+                                <modal name="bioForm" :adaptive="true">
+                                    <div class="p-2">
+                                        <span class="aluma-card-profile-name">Edit Bio</span><hr>
+                                        <form class="p-3">
+                                            <textarea class="form-control mb-3" id="newBio" placeholder="Add new bio..."></textarea>
+                                            <button class="btn btn-dark" type="submit">Save</button>&emsp;&emsp;
+                                            <span class="btn btn-outline-dark" @click="cancel">Cancel</span>
+                                        </form>
+                                    </div>
+                                </modal>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
                             <span class="aluma-card-profile-name">Expirience <button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
@@ -55,16 +58,12 @@ export default {
     methods:{
         editBio(){
             const val=$("#orignalBio").text();
+            console.log(val)
             $("#newBio").val(val);
-            $("#bioForm").slideDown("slow");
-            $("#orignalBio").fadeOut();
-            $("#editBioButton").fadeOut();
+            this.$modal.show('bioForm',{valText:val});
         },
-        cancel(formDivId,buttonId,infoElementId)
-        {
-            $(formDivId).slideUp("slow");
-            $(infoElementId).fadeIn();
-            $(buttonId).fadeIn();
+        cancel(){
+                this.$modal.hide('bioForm');
         }
     }
 }

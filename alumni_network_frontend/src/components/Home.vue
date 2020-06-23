@@ -24,10 +24,10 @@
                                     <div class="contaainer-fluid"><img src="../assets/login.jpg" class="img-fluid rounded"></div>
                                     </div>
                                     <div class="col-lg-6 sm-auto md-auto">
-                                        <form class="p-3" style="margin-top:40px" v-on:submit.prevent="signIn">
-                                            <input type="email" v-model="signInEmail" id="defaultLoginFormEmail" class="form-control mb-4" placeholder="E-mail" required>
-                                            <input type="password" v-model="signInPass" id="defaultLoginFormPassword" class="form-control mb-4" placeholder="Password" required>
-                                            <button class="btn btn-dark btn-block my-4" type="submit">SIGN IN</button>
+                                        <form class="p-3" style="margin-top:40px" @submit.prevent="login">
+                                            <input type="email"  class="form-control mb-4" placeholder="E-mail" v-model="lEmail">
+                                            <input type="password" class="form-control mb-4" placeholder="Password" v-model="lPass">
+                                            <button class="btn btn-dark btn-block my-4" type="submit">Sign in</button>
                                         </form>
                                     </div>
                                 </div>
@@ -38,12 +38,12 @@
                                             <div class="contaainer-fluid"><img src="../assets/signup.png" class="img-fluid rounded"></div>
                                         </div>
                                         <div class="col-lg-6 sm-auto md-auto">
-                                            <form class="p-2" v-on:submit.prevent="signUp">
-                                                <input class="form-control mb-5" v-model="signUpName" id="name" type="text" placeholder="Name" required>
-                                                <input class="form-control mb-5" v-model="signUpUsername" id="username" type="text" placeholder="Username" required>
-                                                <input type="email" v-model="signUpEmail" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" required>
-                                                <input type="password" v-model="signUpPass" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" required>
-                                                <button class="btn btn-dark btn-block my-4" type="submit">SIGN UP</button>
+                                            <form class="p-2" @submit.prevent="signup">
+                                                <input class="form-control mb-5" type="text" placeholder="Name" v-model="sName">
+                                                <input class="form-control mb-5" id="username" type="text" placeholder="Username" v-model="sUsername">
+                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" v-model="sEmail">
+                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" v-model="sPass">
+                                                <button class="btn btn-dark btn-block my-4" type="submit">Sign in</button>
                                             </form>
                                         </div>
                                     </div>    
@@ -57,56 +57,66 @@
 </div>
 </template>
 <script>
-const axios = require('axios')
+import axios from 'axios';
+import EventBus from './EventBus.vue';
+import jwtDecode from 'jwt-decode';
 
 export default {
     name : 'Home',
-    data () {
+    data() {
         return {
-            // SIGN UP FORM MODELS
-            signUpName: '',
-            signUpUsername: '',
-            signUpEmail: '',
-            signUpPass: '',
-
-            // SIGN IN FORM MODELS
-            signInEmail: '',
-            signInPass: '',
+            sName: '',
+            sUsername: '',
+            sEmail: '',
+            sPass: '',
+            lEmail: '',
+            lPass: '',
         }
     },
     methods: {
-        signUp () {
-            axios.post('http://localhost:5000/signup',
-                { email : this.signUpEmail,
-            full_name : this.signUpName, 
-            user_name : this.signUpUsername, 
-            password : this.signUpPass, 
-            }).then(res => {
-                // Clearing the fields
-                this.signUpName = ''
-                this.signUpUsername = ''
-                this.signUpEmail = ''
-                this.signUpPass = ''
-                console.log(res)
+        signup() {
+            const payload = {
+                email: this.sEmail,
+                password: this.sPass,
+                full_name: this.sName,
+                user_name: this.sUsername,
+            };
+            console.log(payload)
+            const path = 'http://localhost:5000/signup';
+            axios.post(path, payload).then((res) => {
+                localStorage.setItem('usertoken', res.data);
+                this.$router.push({ name: 'Verify' });
             })
-            .catch(err => {
-                console.log(err)
+            .catch((err) => {
+                alert(err);
             })
+            this.emitMethod();
         },
-        signIn () {
-            axios.post('http://localhost:5000/login',
-                { email: this.signInEmail, 
-                password: this.signInPass })
-                .then(res => {
-                    // Clearing the fields
-                    this.signInEmail = ''
-                    this.signInPass = ''
-                    console.log(res)
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-        }
+        emitMethod() {
+            EventBus.$emit('logged-in', 'loggedin');
+        },
+        login() {
+            const payload = {
+                email: this.lEmail,
+                password: this.lPass,
+            };
+            console.log(payload)
+            const path = 'http://localhost:5000/login';
+            axios.post(path, payload).then((res) => {
+                localStorage.setItem('usertoken', res.data);
+                const cstat=jwtDecode(res.data).identity.confirmation_status;
+                if(cstat===1){
+                    this.$router.push({ name: 'Feed' });
+                }
+                else{
+                    this.$router.push({ name: 'Verify' });
+                }
+            })
+            .catch((err) => {
+                alert(err);
+            })
+            this.emitMethod();
+        },
     }
 }
 </script>
