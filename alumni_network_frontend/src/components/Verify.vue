@@ -61,7 +61,7 @@ export default {
             const path= 'http://localhost:5000/verify';
             axios.post(path,payload).then((res) => {
                 if(res.data!="1"){
-                    this.$router.push({ name: 'Feed' });
+                    this.$router.push({ name: 'CompleteProfile' });
                     }
                 else{
                     $("#errmsg").html("Please Check the code and try again!!").fadeIn("slow").delay(3000).fadeOut("slow");

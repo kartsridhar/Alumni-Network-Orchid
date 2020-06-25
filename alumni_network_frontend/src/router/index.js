@@ -5,6 +5,7 @@ import Feed from '../components/Feed.vue';
 import Profile from '../components/Profile.vue';
 import Messages from '../components/Messages.vue';
 import Verify from '../components/Verify.vue';
+import CompleteProfile from '../components/CompleteProfile.vue';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/verify',
     name: 'Verify',
     component: Verify,
+  },
+  {
+    path: '/completeprofile',
+    name: 'CompleteProfile',
+    component: CompleteProfile,
   },
 ];
 

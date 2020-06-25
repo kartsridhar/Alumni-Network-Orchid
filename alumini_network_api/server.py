@@ -12,6 +12,8 @@ from comments import add_comment_route,delete_comment_route,update_comment_route
 from getpost import get_post_route
 from getuser import get_user_route
 from discover import get_category_route
+from profile import profile_route
+
 
 app = Flask(__name__)
 CORS(app)
@@ -33,6 +35,7 @@ app.register_blueprint(update_comment_route)
 app.register_blueprint(get_comment_route)
 app.register_blueprint(get_user_route)
 app.register_blueprint(get_category_route)
+app.register_blueprint(profile_route)
 
 
 if __name__ == "__main__":
