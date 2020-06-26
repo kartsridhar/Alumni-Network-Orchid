@@ -27,8 +27,10 @@
                         <span><b>Add Work Experience</b></span><br><br>
                         <input type="text" placeholder="Position" class="form-control mb-3" v-model="position">
                         <input type="text" placeholder="Place Of Work" class="form-control mb-3" v-model="place">
-                        <input type="text" placeholder="Start Date" class="form-control mb-3" v-model="start">
-                        <input type="text" placeholder="End Date" class="form-control mb-3" id="enddate" v-model="end">
+                        <label for="start" class="label-class">Start date:</label>
+                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="start">
+                        <label for="end" class="label-class">End date:</label>
+                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="end">
                         <input type="checkbox"  id="check" class="form-check-input ml-1"><label class="ml-4">I currently work here.</label><br>
                         <button class="btn btn-dark" type="submit">Add</button>
                     </form>
@@ -37,8 +39,10 @@
                         <span><b>Add Education</b></span><br><br>
                         <input type="text" placeholder="Degree/Specialization" class="form-control mb-3" v-model="degree">
                         <input type="text" placeholder="Institution" class="form-control mb-3" v-model="institute">
-                        <input type="text" placeholder="Start Date" class="form-control mb-3" v-model="estart">
-                        <input type="text" placeholder="End Date" class="form-control mb-3" id="eenddate" v-model="eend">
+                        <label for="start" class="label-class">Start date:</label>
+                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="estart">
+                        <label for="end" class="label-class">End date:</label>
+                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="eend">
                         <input type="checkbox"  id="echeck" class="form-check-input ml-1"><label class="ml-4">I currently study here.</label><br>
                         <button class="btn btn-dark" type="submit">Add</button>
                     </form>
@@ -321,3 +325,12 @@ export default {
     }
 }
 </script>
+
+<style>
+.label-class {
+    font-size: 16.5px;
+    color: rgb(116, 113, 113);
+    display: block;
+    margin: .4rem 0;
+}
+</style>
