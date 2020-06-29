@@ -27,10 +27,8 @@
                         <span><b>Add Work Experience</b></span><br><br>
                         <input type="text" placeholder="Position" class="form-control mb-3" v-model="position">
                         <input type="text" placeholder="Place Of Work" class="form-control mb-3" v-model="place">
-                        <label for="start" class="label-class">Start date:</label>
-                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="start">
-                        <label for="end" class="label-class">End date:</label>
-                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="end">
+                        <input type="text" placeholder="Start Date" class="form-control mb-3" id="startdate" v-model="start" onfocus="this.type='date'">
+                        <input type="text" placeholder="End Date" class="form-control mb-3" id="enddate" v-model="end" onfocus="this.type='date'">
                         <input type="checkbox"  id="check" class="form-check-input ml-1"><label class="ml-4">I currently work here.</label><br>
                         <button class="btn btn-dark" type="submit">Add</button>
                     </form>
@@ -39,10 +37,8 @@
                         <span><b>Add Education</b></span><br><br>
                         <input type="text" placeholder="Degree/Specialization" class="form-control mb-3" v-model="degree">
                         <input type="text" placeholder="Institution" class="form-control mb-3" v-model="institute">
-                        <label for="start" class="label-class">Start date:</label>
-                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="estart">
-                        <label for="end" class="label-class">End date:</label>
-                        <input class="form-control mb-3" type="date" id="example-date-input" v-model="eend">
+                        <input type="text" placeholder="Start Date" class="form-control mb-3" id="estartdate" v-model="estart" onfocus="this.type='date'">
+                        <input type="text" placeholder="End Date" class="form-control mb-3" id="eenddate" v-model="eend" onfocus="this.type='date'">
                         <input type="checkbox"  id="echeck" class="form-check-input ml-1"><label class="ml-4">I currently study here.</label><br>
                         <button class="btn btn-dark" type="submit">Add</button>
                     </form>
@@ -114,7 +110,7 @@ export default {
                 place:this.place,
                 start:this.start,
                 end:this.end,
-                email:user_decode.identity.email
+                user:user_decode.identity.user_name
             };
             const path="http://127.0.0.1:5000/addwork";
             axios.post(path,payload).then((res) => {
@@ -126,6 +122,8 @@ export default {
                     this.start="";
                     this.end="";
                     $("#enddate").fadeIn('slow');
+                    document.getElementById('enddate').type = 'text';
+                    document.getElementById('startdate').type = 'text';
                     $('#check').prop('checked', false);
                 }
                 else
@@ -146,7 +144,7 @@ export default {
                 institute:this.institute,
                 start:this.estart,
                 end:this.eend,
-                email:user_decode.identity.email
+                user:user_decode.identity.user_name
             };
             const path="http://127.0.0.1:5000/addedu";
             axios.post(path,payload).then((res) => {
@@ -158,6 +156,8 @@ export default {
                     this.estart="";
                     this.eend="";
                      $("#eenddate").fadeIn('slow');
+                     document.getElementById('eenddate').type = 'text';
+                     document.getElementById('estartdate').type = 'text';
                     $('#echeck').prop('checked', false);
                 }
                 else
@@ -176,7 +176,7 @@ export default {
             var user_decode=jwtDecode(user);
             const payload={
                 bio:this.bio,
-                email:user_decode.identity.email
+                user:user_decode.identity.user_name
             };
             const path="http://127.0.0.1:5000/addbio";
             axios.post(path,payload).then((res) => {
@@ -198,11 +198,10 @@ export default {
         addinterest() {
             var user=localStorage.usertoken;
             var user_decode=jwtDecode(user);
+            var arr=[this.icountry, this.ispecialization,this.isubject]
             const payload={
-            country: this.icountry,
-            ispecialization: this.ispecialization,
-            subject: this.isubject,
-            email:user_decode.identity.email
+            interest:arr,
+            user:user_decode.identity.user_name
             };
             const path="http://127.0.0.1:5000/addinterest";
             axios.post(path,payload).then((res) => {
@@ -272,6 +271,7 @@ export default {
         $("#check").change(function() {
             if(this.checked) {
                 $("#enddate").fadeOut('slow');
+                document.getElementById('enddate').type = 'text';
                 $("#enddate").val("Present")[0].dispatchEvent(new Event('input'));
             }
             else{
@@ -282,6 +282,7 @@ export default {
         $("#echeck").change(function() {
             if(this.checked) {
                 $("#eenddate").fadeOut('slow');
+                document.getElementById('eenddate').type = 'text';
                 $("#eenddate").val("Present")[0].dispatchEvent(new Event('input'));
             }
             else{
@@ -325,12 +326,3 @@ export default {
     }
 }
 </script>
-
-<style>
-.label-class {
-    font-size: 16.5px;
-    color: rgb(116, 113, 113);
-    display: block;
-    margin: .4rem 0;
-}
-</style>

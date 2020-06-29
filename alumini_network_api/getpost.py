@@ -1,6 +1,6 @@
 from flask import Blueprint
 from flask import Flask,request,jsonify
-import mongoconfig,sqlconfig
+import mongoconfig
 from bson import json_util
 import json
 
@@ -9,16 +9,29 @@ get_post_route=Blueprint('get_post_route',__name__)
 @get_post_route.route('/getpost',methods=['POST'])
 def getpost():
     payload=request.json
-    email=payload['email']
-    get_cat="SELECT cat1,cat2,cat3 FROM user_profiles WHERE email='{}'".format(email)
-    db_sql=sqlconfig.createConnection()
-    get_category_cursor=db_sql.cursor(dictionary=True)
-    get_category_cursor.execute(get_cat)
-    categories= (get_category_cursor.fetchone())
+    user=payload['user']
     db_mongo=mongoconfig.createMongoConnection()
+    interests=db_mongo['interests'].find_one({"user": user})['interest']
     post_collection=db_mongo['posts']
     allposts=[]
-    for i in categories:
-        for j in post_collection.find({"categories": categories[i]}):
-            allposts.append(json.loads(json_util.dumps(j)))        
+    for i in interests:
+        for j in post_collection.find({"tags": i}).sort("timestamp",-1):
+            if json.loads(json_util.dumps(j)) not in allposts:
+                allposts.append(json.loads(json_util.dumps(j)))
     return jsonify(allposts)
+
+@get_post_route.route('/getpostcount',methods=['POST'])
+def getpostcount():
+    payload=request.json
+    user=payload['user']
+    db_mongo=mongoconfig.createMongoConnection()
+    interests=db_mongo['interests'].find_one({"user": user})['interest']
+    post_collection=db_mongo['posts']
+    allposts=[]
+    count=0
+    for i in interests:
+        for j in post_collection.find({"tags": i}).sort("timestamp",-1):
+            if json.loads(json_util.dumps(j)) not in allposts:
+                allposts.append(json.loads(json_util.dumps(j)))
+                count+=1
+    return jsonify(count)
