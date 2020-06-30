@@ -55,3 +55,19 @@ def addbio():
     except:
         result="500"
     return jsonify(result)
+
+@profile_route.route('/getbio',methods=['POST'])
+def getbio():
+    user = request.json["user"]
+    db_mongo = mongoconfig.createMongoConnection()
+    bio = db_mongo['bio'].find_one({"user" : user})['bio']
+    return jsonify(bio)
+
+@profile_route.route('/editbio',methods=['POST'])
+def editbio():
+    payload = request.json
+    user = payload["user"]
+    bio = payload["bio"]
+    db_mongo = mongoconfig.createMongoConnection()
+    db_mongo['bio'].find_one_and_update({"user" : user}, {"$set" : {"bio" : bio}})
+    return jsonify(bio)

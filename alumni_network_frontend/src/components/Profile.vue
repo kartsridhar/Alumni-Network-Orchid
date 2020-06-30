@@ -10,27 +10,31 @@
                                 <img src="../assets/profile.png" class="img-fluid rounded-circle bordered" height="150" width="150"><br><br>
                             </div>
                             <div class="aluma-card-profile" align="left" style="margin-top:10px">
-                                <span class="aluma-card-profile-name">Name of User <button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><br>
-                                Work<br>
-                                Location<br>
+                                <span class="aluma-card-profile-name"><strong>{{ fullName }}</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="editUserInfo()"></i></button></span>
+                                <br>
+                                {{ userName }}
+                                <br>
+                                {{ email }}
+                                <br>
                             </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name">Bio<button @click="editBio" id="editBioButton" class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
-                            <div id="orignalBio">Bio here</div>
-                                <modal name="bioForm" :adaptive="true">
-                                    <div class="p-2">
-                                        <span class="aluma-card-profile-name">Edit Bio</span><hr>
-                                        <form class="p-3">
-                                            <textarea class="form-control mb-3" id="newBio" placeholder="Add new bio..."></textarea>
-                                            <button class="btn btn-dark" type="submit">Save</button>&emsp;&emsp;
-                                            <span class="btn btn-outline-dark" @click="cancel">Cancel</span>
-                                        </form>
-                                    </div>
-                                </modal>
+                            <span class="aluma-card-profile-name"><strong>Bio</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="toggleEditBio()"></i></button></span>
+                            <hr>
+                            <div id="orignalBio" v-show="originalBio">{{ bio }}</div>
+                            <div class="" v-show="showBioForm">
+                                <form class="form-group" @submit.prevent="editBio">
+                                    <label><b>Edit Bio</b></label>
+                                    <textarea class="form-control mb-3" :placeholder="bio" v-model="newBio"></textarea>
+                                    <center>
+                                        <button class="btn btn-dark" type="submit" style="margin-right: 30px">Edit</button>
+                                        <button class="btn btn-dark" v-on:click="toggleEditBio()">Close</button>
+                                    </center>
+                                </form>
+                            </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name">Expirience <button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
+                            <span class="aluma-card-profile-name">Experience <button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
                             <p>Company Name<br>
                             Duration<br>
                             Position<br></p>
@@ -51,8 +55,21 @@
 <script>
 import Navbar from './Navbar.vue'
 import MobileNavbar from './MobileNavbar.vue'
-import $ from 'jquery'
+import jwtDecode from 'jwt-decode'
+import axios from 'axios'
+// import $ from 'jquery'
 export default {
+    data () {
+        return {
+            fullName: jwtDecode(localStorage.usertoken).identity.full_name,
+            userName: jwtDecode(localStorage.usertoken).identity.user_name,
+            email: jwtDecode(localStorage.usertoken).identity.email,
+            bio: '',
+            newBio: '',
+            showBioForm: false,
+            originalBio: true,
+        }
+    },
     components: {
         'navbar': Navbar,
         'mbnav': MobileNavbar,
@@ -60,15 +77,47 @@ export default {
     },
     name: 'Profile',
     methods:{
-        editBio(){
-            const val=$("#orignalBio").text();
-            console.log(val)
-            $("#newBio").val(val);
-            this.$modal.show('bioForm',{valText:val});
+        toggleEditBio () {
+            this.originalBio = !this.originalBio
+            this.showBioForm = !this.showBioForm
         },
-        cancel(){
-                this.$modal.hide('bioForm');
+        getBio () {
+            const payload ={
+                user : this.userName
+            }
+            const path = "http://127.0.0.1:5000/getbio";
+
+            axios.post(path,payload).then((res) => {
+                this.bio = res.data;
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        },
+        editBio () {
+            if (this.newBio.length === 0) {
+                this.newBio = this.bio
+            }
+            var payload = {
+                user : this.userName,
+                bio : this.newBio
+            }
+            const path = "http://127.0.0.1:5000/editbio";
+
+            axios.post(path,payload).then((res) => {
+                this.bio = res.data;
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+            this.showBioForm = false
+            this.originalBio = true
         }
+    },
+    mounted() {
+        this.getBio();
     }
 }
 </script>
