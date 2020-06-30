@@ -201,7 +201,7 @@ export default {
                 content:this.content,
                 tags:arr,
                 user:user_decode.identity.user_name,
-                comment:{},
+                comment:[],
                 timestamp:Math.round(+new Date()/1000)
             }
             const path="http://127.0.0.1:5000/createpost"
