@@ -10,7 +10,7 @@
                                 <img src="../assets/profile.png" class="img-fluid rounded-circle bordered" height="150" width="150"><br><br>
                             </div>
                             <div class="aluma-card-profile" align="left" style="margin-top:10px">
-                                <span class="aluma-card-profile-name"><strong>{{ fullName }}</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="editUserInfo()"></i></button></span>
+                                <span class="aluma-card-profile-name"><strong>{{ fullName }}</strong></span>
                                 <br>
                                 {{ userName }}
                                 <br>
@@ -34,10 +34,19 @@
                             </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name">Experience <button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
-                            <p>Company Name<br>
-                            Duration<br>
-                            Position<br></p>
+                            <span class="aluma-card-profile-name"><strong>Experience</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="toggleEditExp()"></i></button></span><hr>
+                            <div class="" v-show="originalExp">
+                                <div class="" v-for="(index) in numberOfExp" :key="index">
+                                    <p>
+                                        <strong>{{ companies[index-1] }}</strong>
+                                        <br>
+                                        {{ durations[index-1] }}
+                                        <br>
+                                        {{ positions[index-1] }}
+                                        <br>
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
                             <span class="aluma-card-profile-name">Bookmarks</span><hr>
@@ -64,10 +73,18 @@ export default {
             fullName: jwtDecode(localStorage.usertoken).identity.full_name,
             userName: jwtDecode(localStorage.usertoken).identity.user_name,
             email: jwtDecode(localStorage.usertoken).identity.email,
+            // Bio stuff
             bio: '',
             newBio: '',
             showBioForm: false,
             originalBio: true,
+
+            // Experience stuff
+            companies: [],
+            durations: [],
+            positions: [],
+            numberOfExp: 0,
+            originalExp: true
         }
     },
     components: {
@@ -95,6 +112,23 @@ export default {
                 alert(err);
             });
         },
+        getExp () {
+            const payload ={
+                user : this.userName
+            }
+            const path = "http://127.0.0.1:5000/getwork";
+
+            axios.post(path,payload).then((res) => {
+                this.companies = res.data["companies"]
+                this.durations = res.data["durations"]
+                this.positions = res.data["positions"]
+                this.numberOfExp = this.companies.length
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        }, 
         editBio () {
             if (this.newBio.length === 0) {
                 this.newBio = this.bio
@@ -118,6 +152,7 @@ export default {
     },
     mounted() {
         this.getBio();
+        this.getExp();
     }
 }
 </script>

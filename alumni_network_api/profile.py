@@ -15,6 +15,32 @@ def addwork():
         result="500"
     return jsonify(result)
 
+@profile_route.route('/getwork',methods=['POST'])
+def getwork():
+    payload = request.json
+    user = payload["user"]
+    db_mongo = mongoconfig.createMongoConnection()
+    exp = db_mongo['experience']
+    documents = list(exp.find({"user" : user}))
+    
+    companies = []
+    durations = []
+    positions = []
+
+    for i in range(len(documents)):
+        companies.append(documents[i]["place"])
+        positions.append(documents[i]["position"])
+        duration = str(documents[i]["start"]) + " to " + str(documents[i]["end"])
+        durations.append(duration)
+
+    result = {
+        "companies" : companies,
+        "durations" : durations,
+        "positions" : positions
+    }
+
+    return jsonify(result)
+
 @profile_route.route('/addedu',methods=['POST'])
 def addedu():
     payload=request.json
