@@ -12,7 +12,7 @@ def addcomment():
     payload=request.json
     comment={}
     comment['post_id']=payload['post_id']
-    comment['user']=payload['email']
+    comment['user']=payload['user']
     comment['body']=payload['body']
     try:
         db_mongo=mongoconfig.createMongoConnection()

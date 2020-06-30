@@ -46,7 +46,7 @@ def addbio():
     bio=db_mongo['bio']
     try:
         q={}
-        q["email"]=payload["email"]
+        q["user"]=payload["user"]
         if(bio.count_documents(q)==0):
             bio.insert_one(payload)
             result="200"
