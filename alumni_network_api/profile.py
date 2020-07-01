@@ -65,6 +65,23 @@ def addinterest():
         result="500"
     return jsonify(result)
 
+@profile_route.route('/getinterest',methods=['POST'])
+def getinterest():
+    user = request.json["user"]
+    db_mongo = mongoconfig.createMongoConnection()
+    interests = db_mongo['interests'].find_one({"user" : user})['interest']
+    return jsonify(interests)
+
+@profile_route.route('/editinterest',methods=['POST'])
+def editinterest():
+    payload = request.json
+    user = payload["user"]
+    interest = payload["interest"]
+    db_mongo = mongoconfig.createMongoConnection()
+    db_mongo['interests'].find_one_and_update({"user" : user}, {"$set" : {"interest" : interest}})
+    print(interest)
+    return jsonify(interest)
+
 @profile_route.route('/addbio',methods=['POST'])
 def addbio():
     payload=request.json

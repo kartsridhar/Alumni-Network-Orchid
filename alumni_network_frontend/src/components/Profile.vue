@@ -19,7 +19,7 @@
                             </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name"><strong>Bio</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="toggleEditBio()"></i></button></span>
+                            <span class="aluma-card-profile-name"><strong>Bio</strong><button class="btn btn-outline-dark border-0 float-right" v-on:click="toggleEditBio"><i class="fa fa-pencil"></i></button></span>
                             <hr>
                             <div id="orignalBio" v-show="originalBio">{{ bio }}</div>
                             <div class="" v-show="showBioForm">
@@ -28,14 +28,14 @@
                                     <textarea class="form-control mb-3" :placeholder="bio" v-model="newBio"></textarea>
                                     <center>
                                         <button class="btn btn-dark" type="submit" style="margin-right: 30px">Edit</button>
-                                        <button class="btn btn-dark" v-on:click="toggleEditBio()">Close</button>
+                                        <button class="btn btn-dark" v-on:click="toggleEditBio">Close</button>
                                     </center>
                                 </form>
                             </div>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name"><strong>Experience</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil" v-on:click="toggleEditExp()"></i></button></span><hr>
-                            <div class="" v-show="originalExp">
+                            <span class="aluma-card-profile-name"><strong>Experience</strong><button class="btn btn-outline-dark border-0 float-right"><i class="fa fa-pencil"></i></button></span><hr>
+                            <div class="">
                                 <div class="" v-for="(index) in numberOfExp" :key="index">
                                     <p>
                                         <strong>{{ companies[index-1] }}</strong>
@@ -53,8 +53,38 @@
                             <p>Bookmarks here</p>
                         </div>
                         <div class="aluma-card" style="margin-top:20px;">
-                            <span class="aluma-card-profile-name">Interests</span><hr>
-                            <p>Interests Here</p>
+                            <span class="aluma-card-profile-name"><strong>Interests</strong><button class="btn btn-outline-dark border-0 float-right" v-on:click="toggleEditInterests"><i class="fa fa-pencil"></i></button></span><hr>
+                            <div class="" v-show="originalInterests">
+                                <span><strong>Country of Interest: </strong> {{ country }} </span>
+                                <br>
+                                <span><strong>Subject of Interest: </strong> {{ subject }} </span>
+                                <br>
+                                <span><strong>Specialisation: </strong> {{ specialisation }} </span>
+                                <br>
+                            </div>
+                            <div class="" v-show="showInterestsForm">
+                                <form class="mb-4" @submit.prevent="editInterests" id="interest">
+                                    <span><b>Select Interests</b></span><br><br>
+                                    <label>Country of Interest</label>
+                                    <select class="form-control mb-3" v-model="newCountry">
+                                        <option v-for="c in countries" :key="c._id.$oid" :value="c.name">{{ c.name }}</option>
+                                    </select>
+                                    <label>Subject of Interest</label>
+                                    <select class="form-control mb-3" id="subject" v-model="newSubject">
+                                        <option disabled selected>Select Subject</option>
+                                        <option v-for="s in subjects" :key="s._id.$oid" :value="s.name">{{ s.name }}</option>
+                                    </select>
+                                    <label>Select Specialization</label>
+                                    <select class="form-control mb-3" v-model="newSpecialisation">
+                                        <option disabled selected>Select Subject First</option>
+                                        <option v-for="special in specialisations" :key="special._id.$oid" :value="special.name">{{ special.name }}</option>
+                                    </select>
+                                    <center>
+                                        <button class="btn btn-dark" type="submit" style="margin-right: 30px">Edit</button>
+                                        <button class="btn btn-dark" v-on:click="toggleEditInterests">Close</button>
+                                    </center>
+                                </form>
+                            </div>
                         </div>                    
                     </div>
                 </div>
@@ -66,7 +96,7 @@ import Navbar from './Navbar.vue'
 import MobileNavbar from './MobileNavbar.vue'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios'
-// import $ from 'jquery'
+import $ from 'jquery'
 export default {
     data () {
         return {
@@ -84,7 +114,19 @@ export default {
             durations: [],
             positions: [],
             numberOfExp: 0,
-            originalExp: true
+
+            // Interests stuff
+            countries: [],
+            subjects: [],
+            specialisations: [],
+            country: '',
+            newCountry: '',
+            subject: '',
+            newSubject: '',
+            specialisation: '',
+            newSpecialisation: '',
+            showInterestsForm: false,
+            originalInterests: true
         }
     },
     components: {
@@ -97,6 +139,10 @@ export default {
         toggleEditBio () {
             this.originalBio = !this.originalBio
             this.showBioForm = !this.showBioForm
+        },
+        toggleEditInterests () {
+            this.originalInterests = !this.originalInterests
+            this.showInterestsForm = !this.showInterestsForm
         },
         getBio () {
             const payload ={
@@ -129,6 +175,92 @@ export default {
                 alert(err);
             });
         }, 
+        getcountries(){
+            const payload={
+                parent: 'Country'
+            }
+            const path="http://127.0.0.1:5000/getchildcategories"
+            axios.post(path,payload).then((res) => {
+                this.countries=res.data;
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        },
+        getsubjects(){
+            const payload={
+                parent: 'Subject'
+            }
+            const path="http://127.0.0.1:5000/getchildcategories"
+            axios.post(path,payload).then((res) => {
+                this.subjects=res.data;
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        },
+        getspecialization(subject){
+            const payload={
+                parent: subject
+            }
+            const path="http://127.0.0.1:5000/getgrandchildcategories"
+            axios.post(path,payload).then((res) => {
+                this.specialisations=res.data;
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        },
+        getInterests () {
+            const payload ={
+                user : this.userName
+            }
+            const path = "http://127.0.0.1:5000/getinterest";
+
+            axios.post(path,payload).then((res) => {
+                this.country = res.data[0]
+                this.subject = res.data[1]
+                this.specialisation = res.data[2]
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+        },
+        editInterests () {
+            if (this.newCountry.length === 0) {
+                this.newCountry = this.country
+            }
+            if (this.newSubject.length === 0) {
+                this.newSubject = this.subject
+            }
+            if (this.newSpecialisation.length == 0) {
+                this.newSpecialisation = this.specialisation
+            }
+
+            var newInterests = [this.newCountry, this.newSubject, this.newSpecialisation]
+
+            const payload = {
+                user : this.userName,
+                interest : newInterests
+            }
+            const path = "http://127.0.0.1:5000/editinterest";
+
+            axios.post(path,payload).then((res) => {
+                this.country = res.data[0]
+                this.subject = res.data[1]
+                this.specialisation = res.data[2]
+            })
+            .catch((err) => {
+                // eslint-disable-next-line
+                alert(err);
+            });
+            this.showInterestsForm = false
+            this.originalInterests = true
+        },
         editBio () {
             if (this.newBio.length === 0) {
                 this.newBio = this.bio
@@ -153,6 +285,12 @@ export default {
     mounted() {
         this.getBio();
         this.getExp();
+        this.getcountries();
+        this.getsubjects();
+        this.getInterests();
+        $('#subject').on('change', (evt) => {
+            this.getspecialization($(evt.target).val());
+        });
     }
 }
 </script>
