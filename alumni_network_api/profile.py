@@ -79,7 +79,6 @@ def editinterest():
     interest = payload["interest"]
     db_mongo = mongoconfig.createMongoConnection()
     db_mongo['interests'].find_one_and_update({"user" : user}, {"$set" : {"interest" : interest}})
-    print(interest)
     return jsonify(interest)
 
 @profile_route.route('/addbio',methods=['POST'])
