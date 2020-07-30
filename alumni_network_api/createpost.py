@@ -34,3 +34,39 @@ def addcomment():
     except:
         result="500"
     return result
+
+@create_post_route.route('/addlike',methods=['post'])
+def addlike():
+    payload=request.json
+    query={}
+    query["_id"]=ObjectId(payload["post_id"])
+    try:
+        db_mongo=mongoconfig.createMongoConnection()
+        posts=db_mongo["posts"]
+        post=posts.find_one(query)
+        x=post['likes']
+        x=x+1
+        posts.update_one(query,{"$set":{"likes":x}})
+        posts.update_one(query,{"$push":{"likers":payload['user']}})
+        result="200"
+    except:
+        result="500"
+    return result
+
+@create_post_route.route('/removelike',methods=['post'])
+def removelike():
+    payload=request.json
+    query={}
+    query["_id"]=ObjectId(payload["post_id"])
+    try:
+        db_mongo=mongoconfig.createMongoConnection()
+        posts=db_mongo["posts"]
+        post=posts.find_one(query)
+        x=post['likes']
+        x=x-1
+        posts.update_one(query,{"$set":{"likes":x}})
+        posts.update_one(query,{"$pull":{"likers":payload['user']}})
+        result="200"
+    except:
+        result="500"
+    return result

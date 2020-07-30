@@ -18,6 +18,9 @@ def getpost():
         for j in post_collection.find({"tags": i}).sort("timestamp",-1):
             if json.loads(json_util.dumps(j)) not in allposts:
                 allposts.append(json.loads(json_util.dumps(j)))
+    for j in post_collection.find({"user":user}).sort("timestamp",-1):
+        if json.loads(json_util.dumps(j)) not in allposts:
+                allposts.append(json.loads(json_util.dumps(j)))
     return jsonify(allposts)
 
 @get_post_route.route('/getpostcount',methods=['POST'])

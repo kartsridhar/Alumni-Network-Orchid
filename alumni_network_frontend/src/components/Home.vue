@@ -1,15 +1,14 @@
 <template>
 <div>
-    <nav class="navbar navbar-light bg-light" style="background-color:transparent !important;">
+    <nav class="navbar navbar-light bg-light" style="background-color:white !important; border-bottom:1px solid #d5d5d5;">
   <a class="navbar-brand" href="#">
-    <img src="../assets/logo.png" width="70" height="70" alt="">
     Aluma<b>Meet</b>
   </a>
 </nav>
     <div class="container-fluid">
         <div class="row" style="padding-top:30px;">
-            <div class="col-lg-6 offset-lg-3 sm-auto md-auto">
-                <div class="card border-dark text-center">
+            <div class="col-lg-4 offset-lg-4 sm-auto md-auto">
+                <div class="card border-grey">
                     <div class="card-header bg-transparent">
                         <div class="nav nav-tabs nav-justified card-header-tabs">
                             <span class="nav-item nav-link active" id="nav-signup-tab" data-toggle="tab" href="#nav-signup" role="tab" aria-controls="nav-signup" aria-selected="false" style="cursor: pointer;"><strong>Sign Up</strong></span>
@@ -20,30 +19,30 @@
                         <div class="tab-content" id="nav-tabContent">
                             <div class="tab-pane fade" id="nav-login" role="tabpanel" aria-labelledby="nav-login-tab">
                                 <div class="row">
-                                    <div class="col-lg-6  sm-auto md-auto">
-                                    <div class="container-fluid"><img src="../assets/login.jpg" class="img-fluid rounded"></div>
-                                    </div>
-                                    <div class="col-lg-6 sm-auto md-auto">
-                                        <form class="p-3" style="margin-top:40px" @submit.prevent="login">
-                                            <input type="email"  class="form-control mb-4" placeholder="E-mail" v-model="lEmail" required>
-                                            <input type="password" class="form-control mb-4" placeholder="Password" v-model="lPass" required>
-                                            <button class="btn btn-dark btn-block my-4" type="submit">Login</button>
+                                    <div class="col-lg-12 sm-auto md-auto">
+                                        <form class="p-3" @submit.prevent="login">
+                                            <label>Email</label>
+                                            <input type="email"  class="form-control mb-4"  v-model="lEmail" required>
+                                            <label>Password</label>
+                                            <input type="password" class="form-control mb-4"  v-model="lPass" required>
+                                            <button class="btn btn-dark float-right" type="submit">Login</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                             <div class="tab-pane fade show active" id="nav-signup" role="tabpanel" aria-labelledby="nav-signup-tab">
                                     <div class="row">
-                                        <div class="col-lg-6  sm-auto md-auto">
-                                            <div class="container-fluid"><img src="../assets/signup.png" class="img-fluid rounded"></div>
-                                        </div>
-                                        <div class="col-lg-6 sm-auto md-auto">
+                                        <div class="col-lg-12 sm-auto md-auto">
                                             <form class="p-2" @submit.prevent="signup">
-                                                <input class="form-control mb-5" type="text" placeholder="Name" v-model="sName" required>
-                                                <input class="form-control mb-5" id="username" type="text" placeholder="Username" v-model="sUsername" required>
-                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-5" placeholder="E-mail" v-model="sEmail" required>
-                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-5" placeholder="Password" v-model="sPass" required>
-                                                <button class="btn btn-dark btn-block my-4" type="submit">Sign Up</button>
+                                                <label>Name</label>
+                                                <input class="form-control mb-4" type="text"  v-model="sName" required>
+                                                <label>Username</label>
+                                                <input class="form-control mb-4" id="username" type="text"  v-model="sUsername" required>
+                                                <label>Email</label>
+                                                <input type="email" id="defaultSignupFormEmail" class="form-control mb-4"  v-model="sEmail" required>
+                                                <label>Password</label>
+                                                <input type="password" id="defaultSignupFormPassword" class="form-control mb-4"  v-model="sPass" required>
+                                                <button class="btn btn-dark float-right" type="submit">Sign Up</button>
                                             </form>
                                         </div>
                                     </div>    

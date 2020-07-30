@@ -7,7 +7,7 @@
                     <a class="nav-link" href="/feed"><button class="navbutton active"><i class="fa fa-home"></i></button></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link"><button class="navbutton"><i class="fa fa-search"></i></button></a>
+                    <a class="nav-link" href="/discover"><button class="navbutton"><i class="fa fa-search"></i></button></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/profile"><button class="navbutton"><i class="fa fa-user-circle-o"></i></button></a>

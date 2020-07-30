@@ -53,9 +53,10 @@ def addedu():
         result="500"
     return jsonify(result)
 
-@profile_route.route('/addinterest',methods=['POST'])
+@profile_route.route('/addinterests',methods=['POST'])
 def addinterest():
     payload=request.json
+    print(payload)
     db_mongo=mongoconfig.createMongoConnection()
     intr=db_mongo['interests']
     try:

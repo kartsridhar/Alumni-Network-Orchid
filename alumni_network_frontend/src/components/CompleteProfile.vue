@@ -44,21 +44,25 @@
                     </form>
                     <hr>
                     <form class="mb-4" @submit.prevent="addinterest" id="interest">
-                        <span><b>Select Interests</b></span><br><br>
-                        <label>Country of Interest</label>
-                        <select class="form-control mb-3" v-model="icountry">
-                            <option v-for="country in countries" :key="country._id.$oid" :value="country.name">{{country.name}}</option>
-                        </select>
-                        <label>Subject of Interest</label>
-                        <select class="form-control mb-3" id="subject" v-model="isubject">
-                            <option disabled selected>Select Subject</option>
-                            <option v-for="subject in subjects" :key="subject._id.$oid" :value="subject.name">{{subject.name}}</option>
-                        </select>
+                        <label><b>Countries of Interest</b></label>
+                        <div class="table-responsive">
+                            <table class="table borderless">
+                            <tr><th v-for="country in countries" :key="country._id.$oid"><tr><input type="checkbox" :id="country._id.$oid" :value="country.name" @change="addtoarray(country._id.$oid)"></tr><tr>{{country.name}}</tr></th></tr>
+                            </table>
+                        </div>
+                        <hr>
+                        <label><b>Subjects of Interest</b></label>
+                        <div class="table-responsive">
+                            <table class="table borderless">
+                            <tr><th v-for="subject in subjects" :key="subject._id.$oid"><tr><input type="checkbox" :id="subject._id.$oid" :value="subject.name" @change="addtoarray(subject._id.$oid)"></tr><tr>{{subject.name}}</tr></th></tr>
+                            </table>
+                        </div><hr>
                         <label>Select Specialization</label>
-                        <select class="form-control mb-3" v-model="ispecialization">
-                            <option disabled selected>Select Subject First</option>
-                            <option v-for="special in specializations" :key="special._id.$oid" :value="special.name">{{special.name}}</option>
-                        </select>
+                        <div class="table-responsive">
+                            <table class="table borderless">
+                            <tr><th v-for="special in specializations" :key="special._id.$oid"><tr><input type="checkbox" :value="special.name" :id="special._id.$oid" @change="addtoarray(special._id.$oid)"></tr><tr>{{special.name}}</tr></th></tr>
+                            </table>
+                        </div><hr>
                         <button class="btn btn-dark" type="submit">Save</button>
                     </form>
                     <button class="btn btn-dark" @click="complete" style="display:none" id="complete">Complete</button>
@@ -88,12 +92,11 @@ export default {
             institute:'',
             estart:'',
             eend:'',
-            icountry: '',
-            ispecialization: '',
-            isubject: '',
+            interests:[],
             countries: [],
             subjects: [],
             specializations: [],
+            selectedinterest:[],
         }
     },
     name: 'CompleteProfile',
@@ -198,12 +201,12 @@ export default {
         addinterest() {
             var user=localStorage.usertoken;
             var user_decode=jwtDecode(user);
-            var arr=[this.icountry, this.ispecialization,this.isubject]
             const payload={
-            interest:arr,
+            interest:this.selectedinterest,
             user:user_decode.identity.user_name
             };
-            const path="http://127.0.0.1:5000/addinterest";
+            console.log(payload)
+            const path="http://127.0.0.1:5000/addinterests";
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 if(res.data=="200"){
@@ -249,10 +252,8 @@ export default {
                 alert(err);
             });
         },
-        getspecialization(subject){
-            const payload={
-                parent: subject
-            }
+        getspecialization(){
+            const payload={}
             const path="http://127.0.0.1:5000/getgrandchildcategories"
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
@@ -265,7 +266,18 @@ export default {
         },
         complete() {
             this.$router.push({ name: 'Feed' });
-        }
+        },
+        addtoarray(id){
+            id="#"+id;
+            if($(id).prop("checked")==true){
+                this.selectedinterest.push($(id).val());
+                console.log(this.selectedinterest);
+            }
+            else{
+                this.selectedinterest = this.selectedinterest.filter(item => item !== $(id).val())
+                console.log(this.selectedinterest)
+            }
+      }
     },
     mounted() {
         $("#check").change(function() {
@@ -320,9 +332,11 @@ export default {
               $("#list").addClass('ml-auto');              
               $("#nbrand").show();
           }
-      })
+      });
+      
         this.getcountries();
         this.getsubjects();
+        this.getspecialization();
     }
 }
 </script>

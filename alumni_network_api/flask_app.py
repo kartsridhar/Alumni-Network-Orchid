@@ -12,7 +12,6 @@ from getpost import get_post_route
 from getuser import get_user_route
 from discover import get_category_route
 from profile import profile_route
-from messages import messages_route
 
 app = Flask(__name__)
 CORS(app)
@@ -31,7 +30,6 @@ app.register_blueprint(removebookmark_post_route)
 app.register_blueprint(get_user_route)
 app.register_blueprint(get_category_route)
 app.register_blueprint(profile_route)
-app.register_blueprint(messages_route)
 
 if __name__ == "__main__":
 	app.config.update(
