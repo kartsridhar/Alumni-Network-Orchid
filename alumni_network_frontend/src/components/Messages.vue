@@ -73,7 +73,7 @@ export default {
             const payload={
                 user:jwtDecode(localStorage.usertoken).identity.user_name
             }
-            const path="http://127.0.0.1:5000/getconvo"
+            const path="https://127.0.0.1:5000/getconvo"
             axios.post(path,payload).then((res) => {
                 this.conversations=res.data;
             })
@@ -99,7 +99,7 @@ export default {
                 from:jwtDecode(localStorage.usertoken).identity.user_name,
                 timestamp:Math.round(+new Date()/1000)
             }
-            const path="http://127.0.0.1:5000/sendmessage"
+            const path="https://127.0.0.1:5000/sendmessage"
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 this.getmessage();
@@ -115,7 +115,7 @@ export default {
                 user2:this.user2,
                 user1:jwtDecode(localStorage.usertoken).identity.user_name,
             }
-            const path="http://127.0.0.1:5000/getmessages"
+            const path="https://127.0.0.1:5000/getmessages"
             axios.post(path,payload).then((res) => {
                 this.msgs=res.data
             })

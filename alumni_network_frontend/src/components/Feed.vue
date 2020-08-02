@@ -157,7 +157,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/addlike"
+            const path="https://127.0.0.1:5000/addlike"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getpost()
@@ -174,7 +174,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/removelike"
+            const path="https://127.0.0.1:5000/removelike"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getpost()
@@ -191,7 +191,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/addbookmark"
+            const path="https://127.0.0.1:5000/addbookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getbookmarks()
@@ -208,7 +208,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/removebookmark"
+            const path="https://127.0.0.1:5000/removebookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getbookmarks()
@@ -224,7 +224,7 @@ export default {
             const payload={
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/getbookmark"
+            const path="https://127.0.0.1:5000/getbookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.bookmarks=res.data.bookmarks
@@ -238,7 +238,7 @@ export default {
             const payload={
                 parent: "Country"
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 
                 this.countries=res.data;
@@ -252,7 +252,7 @@ export default {
             const payload={
                 parent: 'Subject',
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 
                 this.subjects=res.data;
@@ -266,7 +266,7 @@ export default {
             const payload={
                 parent: 'Exam',
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 
                 this.exams=res.data;
@@ -278,7 +278,7 @@ export default {
         },
         getspecialization(){
             const payload={}
-            const path="http://127.0.0.1:5000/getgrandchildcategories"
+            const path="https://127.0.0.1:5000/getgrandchildcategories"
             axios.post(path,payload).then((res) => {
                 
                 this.specializations=res.data;
@@ -302,7 +302,7 @@ export default {
                 likers:[],
                 timestamp:Math.round(+new Date()/1000)
             }
-            const path="http://127.0.0.1:5000/createpost"
+            const path="https://127.0.0.1:5000/createpost"
             axios.post(path,payload).then((res) => {
                 if(res.data=="200"){
                     alert("Post Added");
@@ -332,7 +332,7 @@ export default {
                timestamp:Math.round(+new Date()/1000),
                post:id
             }
-            const path="http://127.0.0.1:5000/addcomment"
+            const path="https://127.0.0.1:5000/addcomment"
             axios.post(path,payload).then((res) => {
                 if(res.data=="200"){
                     alert("Comment Added");
@@ -357,7 +357,7 @@ export default {
             const payload ={
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/getpost"
+            const path="https://127.0.0.1:5000/getpost"
             axios.post(path,payload).then((res) => {
                     this.posts=res.data;
             })
@@ -372,7 +372,7 @@ export default {
             const payload ={
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/getpostcount"
+            const path="https://127.0.0.1:5000/getpostcount"
             axios.post(path,payload).then((res) => {
                     this.count=res.data;
             })

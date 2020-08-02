@@ -38,4 +38,4 @@ if __name__ == "__main__":
     SESSION_COOKIE_HTTPONLY=False,
     SECRET_KEY='speakfriend'
     )
-	app.run(debug=True)
+	app.run(debug=True,ssl_context=('cert.pem', 'key.pem'))

@@ -81,7 +81,7 @@ export default {
                 user_name: this.sUsername,
             };
             console.log(payload)
-            const path = 'http://localhost:5000/signup';
+            const path = 'https://localhost:5000/signup';
             axios.post(path, payload).then((res) => {
                 localStorage.setItem('usertoken', res.data);
                 this.$router.push({ name: 'Verify' });
@@ -100,7 +100,7 @@ export default {
                 password: this.lPass,
             };
             console.log(payload)
-            const path = 'http://localhost:5000/login';
+            const path = 'https://localhost:5000/login';
             axios.post(path, payload).then((res) => {
                 localStorage.setItem('usertoken', res.data);
                 const cstat=jwtDecode(res.data).identity.confirmation_status;

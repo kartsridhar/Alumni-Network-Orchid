@@ -51,7 +51,7 @@ export default {
     name: 'Discover',
     methods: {
         getcategories(){
-             const path="http://127.0.0.1:5000/getcategories"
+             const path="https://127.0.0.1:5000/getcategories"
              axios.get(path).then((res) => {
                  console.log(res.data)
                  this.categories=res.data;
@@ -62,7 +62,7 @@ export default {
             });
         },
         getchild(){
-             const path="http://127.0.0.1:5000/getchildcategories"
+             const path="https://127.0.0.1:5000/getchildcategories"
              const payload={
              }
              axios.post(path,payload).then((res) => {
@@ -108,7 +108,7 @@ export default {
                 interest:n,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/addinterest"
+            const path="https://127.0.0.1:5000/addinterest"
             axios.post(path,payload).then((res) => {
                  console.log(res.data)
                  this.getinterests()
@@ -126,7 +126,7 @@ export default {
                 interest:n,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/removeinterest"
+            const path="https://127.0.0.1:5000/removeinterest"
             axios.post(path,payload).then((res) => {
                  console.log(res.data)
                  this.getinterests()
@@ -143,7 +143,7 @@ export default {
             const payload={
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/getinterest"
+            const path="https://127.0.0.1:5000/getinterest"
             axios.post(path,payload).then((res) => {
                 this.interests=res.data         
             })

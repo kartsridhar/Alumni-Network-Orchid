@@ -120,7 +120,7 @@ export default {
             const payload ={
                 cat:this.category
             }
-            const path="http://127.0.0.1:5000/getcategorypost"
+            const path="https://127.0.0.1:5000/getcategorypost"
             axios.post(path,payload).then((res) => {
                     this.posts=res.data;
             })
@@ -136,7 +136,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/addlike"
+            const path="https://127.0.0.1:5000/addlike"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getpost()
@@ -153,7 +153,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/removelike"
+            const path="https://127.0.0.1:5000/removelike"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getpost()
@@ -172,7 +172,7 @@ export default {
                timestamp:Math.round(+new Date()/1000),
                post:id
             }
-            const path="http://127.0.0.1:5000/addcomment"
+            const path="https://127.0.0.1:5000/addcomment"
             axios.post(path,payload).then((res) => {
                 if(res.data=="200"){
                     alert("Comment Added");
@@ -197,7 +197,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/addbookmark"
+            const path="https://127.0.0.1:5000/addbookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getbookmarks()
@@ -214,7 +214,7 @@ export default {
                 post_id:id,
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/removebookmark"
+            const path="https://127.0.0.1:5000/removebookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.getbookmarks()
@@ -230,7 +230,7 @@ export default {
             const payload={
                 user:user_decode.identity.user_name
             }
-            const path="http://127.0.0.1:5000/getbookmark"
+            const path="https://127.0.0.1:5000/getbookmark"
             axios.post(path,payload).then((res) => {
                 console.log(res.data)
                 this.bookmarks=res.data.bookmarks

@@ -148,7 +148,7 @@ export default {
             const payload ={
                 user : this.userName
             }
-            const path = "http://127.0.0.1:5000/getbio";
+            const path = "https://127.0.0.1:5000/getbio";
 
             axios.post(path,payload).then((res) => {
                 this.bio = res.data;
@@ -162,7 +162,7 @@ export default {
             const payload ={
                 user : this.userName
             }
-            const path = "http://127.0.0.1:5000/getwork";
+            const path = "https://127.0.0.1:5000/getwork";
 
             axios.post(path,payload).then((res) => {
                 this.companies = res.data["companies"]
@@ -179,7 +179,7 @@ export default {
             const payload={
                 parent: 'Country'
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 this.countries=res.data;
             })
@@ -192,7 +192,7 @@ export default {
             const payload={
                 parent: 'Subject'
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 this.subjects=res.data;
             })
@@ -205,7 +205,7 @@ export default {
             const payload={
                 parent: subject
             }
-            const path="http://127.0.0.1:5000/getgrandchildcategories"
+            const path="https://127.0.0.1:5000/getgrandchildcategories"
             axios.post(path,payload).then((res) => {
                 this.specialisations=res.data;
             })
@@ -218,7 +218,7 @@ export default {
             const payload ={
                 user : this.userName
             }
-            const path = "http://127.0.0.1:5000/getinterest";
+            const path = "https://127.0.0.1:5000/getinterest";
 
             axios.post(path,payload).then((res) => {
                 this.country = res.data[0]
@@ -247,7 +247,7 @@ export default {
                 user : this.userName,
                 interest : newInterests
             }
-            const path = "http://127.0.0.1:5000/editinterest";
+            const path = "https://127.0.0.1:5000/editinterest";
 
             axios.post(path,payload).then((res) => {
                 this.country = res.data[0]
@@ -269,7 +269,7 @@ export default {
                 user : this.userName,
                 bio : this.newBio
             }
-            const path = "http://127.0.0.1:5000/editbio";
+            const path = "https://127.0.0.1:5000/editbio";
 
             axios.post(path,payload).then((res) => {
                 this.bio = res.data;

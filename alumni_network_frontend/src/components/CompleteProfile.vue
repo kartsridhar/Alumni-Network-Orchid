@@ -115,7 +115,7 @@ export default {
                 end:this.end,
                 user:user_decode.identity.user_name
             };
-            const path="http://127.0.0.1:5000/addwork";
+            const path="https://127.0.0.1:5000/addwork";
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 if(res.data=="200"){
@@ -149,7 +149,7 @@ export default {
                 end:this.eend,
                 user:user_decode.identity.user_name
             };
-            const path="http://127.0.0.1:5000/addedu";
+            const path="https://127.0.0.1:5000/addedu";
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 if(res.data=="200"){
@@ -181,7 +181,7 @@ export default {
                 bio:this.bio,
                 user:user_decode.identity.user_name
             };
-            const path="http://127.0.0.1:5000/addbio";
+            const path="https://127.0.0.1:5000/addbio";
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 if(res.data=="200"){
@@ -206,7 +206,7 @@ export default {
             user:user_decode.identity.user_name
             };
             console.log(payload)
-            const path="http://127.0.0.1:5000/addinterests";
+            const path="https://127.0.0.1:5000/addinterests";
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 if(res.data=="200"){
@@ -228,7 +228,7 @@ export default {
             const payload={
                 parent: 'Country'
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 this.countries=res.data;
@@ -242,7 +242,7 @@ export default {
             const payload={
                 parent: 'Subject'
             }
-            const path="http://127.0.0.1:5000/getchildcategories"
+            const path="https://127.0.0.1:5000/getchildcategories"
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 this.subjects=res.data;
@@ -254,7 +254,7 @@ export default {
         },
         getspecialization(){
             const payload={}
-            const path="http://127.0.0.1:5000/getgrandchildcategories"
+            const path="https://127.0.0.1:5000/getgrandchildcategories"
             axios.post(path,payload).then((res) => {
                 console.log(res.data);
                 this.specializations=res.data;

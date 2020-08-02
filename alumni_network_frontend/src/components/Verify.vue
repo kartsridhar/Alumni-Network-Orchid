@@ -58,7 +58,7 @@ export default {
                 email:user_decode.identity.email,
                 confirmation_code:this.code,
             };
-            const path= 'http://localhost:5000/verify';
+            const path= 'https://localhost:5000/verify';
             axios.post(path,payload).then((res) => {
                 if(res.data!="1"){
                     this.$router.push({ name: 'CompleteProfile' });
